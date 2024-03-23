@@ -1,0 +1,500 @@
+At the end of this online module, you should be able to:
+Bu çevrimiçi modülün sonunda şunları yapabilmelisiniz:
+
+Translate between logical statements and English statements,
+Mantıksal ifadeler ile İngilizce ifadeler arasında çeviri yapma, Dizilerle
+
+Employ logical operations with arrays,
+mantıksal işlemler gerçekleştirme, Mantıksal
+
+Employ order of operations to perform logical operations,
+işlemleri gerçekleştirmek için işlem sırasını kullanma
+
+and employ the find function with vectors and matrices.
+ve bulma işlevini vektörler ve matrislerle kullanma.  MATLAB'daki mantıksal operatörleri öğrenmemize
+
+Let's consider a problem that will help us learn about logical operators in MATLAB.
+yardımcı olacak bir problem düşünelim .
+
+An electrical engineer is designing a logic circuit for an in home security system.
+Bir elektrik mühendisi ev içi güvenlik sistemi için bir mantık devresi tasarlıyor.
+
+The logic circuit connects a light fixture, a motion detector,
+Mantık devresi bir aydınlatma armatürünü, bir hareket dedektörünü,
+
+a digital clock set to 24-hour time, and a light switch.
+24 saate ayarlanmış bir dijital saati ve bir ışık anahtarını birbirine bağlar.
+
+The system should work such that the light fixture turns on when homeowners are not home
+Sistem, akşamları ev sahipleri evde olmadığında aydınlatma armatürünün yanması ve
+
+in the evenings so it appears that they are home.
+böylece evdeymiş gibi görünmesi için çalışmalıdır .
+
+When the homeowners are home, the light fixture should be controlled by the light switch.
+Ev sahibi evdeyken aydınlatma armatürü ışık anahtarı ile kontrol edilmelidir.
+
+Therefore, the goal of the logic circuit is to turn on the light when the light switch is on,
+Dolayısıyla mantık devresinin amacı, ışık anahtarı açıkken
+
+or when both the motion detector is not engaged, that is, motion is not detected,
+veya her iki hareket dedektörü devrede değilken yani hareket algılanmadığında
+
+and the clock is within a particular time range.
+ve saat belirli bir zaman aralığında olduğunda ışığı açmaktır.
+
+The engineer needs to develop the MATLAB code for the logic circuit
+Mühendisin mantık devresi için MATLAB kodunu geliştirmesi
+
+and verify when the code turns the light fixture on.
+ve kodun aydınlatma armatürünü ne zaman açtığını doğrulaması gerekir .
+
+We will need to understand a little bit more about the system before we can begin to work on this problem.
+Bu sorun üzerinde çalışmaya başlamadan önce sistem hakkında biraz daha bilgi sahibi olmamız gerekecek.
+
+First, we need to consider each device and how they work in a digital system.
+Öncelikle her cihazı ve dijital sistemde nasıl çalıştıklarını dikkate almamız gerekiyor.
+
+Digital electronics controls use binary numbering systems to operate,
+Dijital elektronik kontroller, çalışmak için ikili numaralandırma sistemlerini kullanır; bu, genellikle doğru ve yanlışa dönüşen
+
+meaning that they take inputs of 1 and 0 which usually translate to true and false
+1 ve 0 girişlerini aldıkları
+
+and they output 1 or 0.
+ve 1 veya 0 çıktısı verdikleri anlamına gelir.
+
+Let's consider each device and its controls.
+Her cihazı ve kontrollerini ele alalım.
+
+The light fixture control is set on true when the light is on and false when the light is off.
+Işık fikstürü kontrolü, ışık açıkken doğru, ışık kapalıyken yanlış olarak ayarlanır.  Hareket algılandığında
+
+The motion detector control is true when motion is detected.
+hareket dedektörü kontrolü doğrudur .
+
+The digital clock control is set to true when the time is set within a specific range identified by the homeowners.
+Zaman, ev sahipleri tarafından belirlenen belirli bir aralık dahilinde ayarlandığında dijital saat kontrolü doğruya ayarlanır.
+
+And the light switch control is set to true when the switch is on.
+Ve ışık anahtarı kontrolü, anahtar açıkken doğruya ayarlanır.
+
+There are four logical operators we will consider in this course.
+Bu derste ele alacağımız dört mantıksal operatör vardır.
+
+Let's first consider the 'AND' operator.
+Öncelikle 'AND' operatörünü ele alalım.  Matematik, mantık, mühendislik vb.
+
+Notice that there are multiple symbols used in mathematics, logic, engineering, etc.
+alanlarda birden fazla sembolün kullanıldığına dikkat edin.
+
+The MATLAB syntax for the 'AND' operator is the ampersand ('&') symbol.
+'AND' operatörünün MATLAB sözdizimi ve işareti ('&') sembolüdür.
+
+The statement 'A & B' is true if A and B are both true; otherwise, it is false.
+'A & B' ifadesi, eğer A ve B'nin her ikisi de doğruysa doğrudur; aksi halde yanlıştır.
+
+Again, the 'OR' operator has multiple symbols in different contexts,
+Yine, 'OR' operatörünün farklı bağlamlarda birden fazla sembolü vardır ,
+
+but MATLAB uses the syntax of a vertical bar ('|').
+ancak MATLAB dikey çubuğun ('|') sözdizimini kullanır.
+
+The statement 'A | B' is true if A or B, or both, are true.
+'A |  A veya B veya her ikisi de doğruysa B' doğrudur.
+
+If A and B are both false, the statement is false.
+A ve B'nin her ikisi de yanlışsa ifade yanlıştır.
+
+The 'NOT' operator changes a true to a false and vice versa.
+'DEĞİL' operatörü doğruyu yanlışa çevirir ve bunun tersi de geçerlidir.
+
+The MATLAB syntax is the tilde ('~') sign, and the statement '~ A' is true when A is false.
+MATLAB sözdizimi yaklaşık ('~') işaretidir ve '~ A' ifadesi, A yanlış olduğunda doğrudur.
+
+Conversely '~ A' is false when A is true.
+Tersine, A doğru olduğunda '~ A' yanlıştır.
+
+'XOR' is an operator that stands for the words 'exclusive or'.
+'XOR', 'özel veya' kelimelerinin kısaltması olan bir operatördür.
+
+This means the statement is true if when one of the variables is true
+Bu, değişkenlerden biri doğru olduğunda
+
+we exclude the other variable from being true.
+diğer değişkenin doğru olmasını dışladığımızda ifadenin doğru olduğu anlamına gelir.
+
+The MATLAB syntax for XOR is 'XOR(A,B).
+XOR için MATLAB sözdizimi 'XOR(A,B)'dir.
+
+Notice that this is a built-in MATLAB function rather than just a symbol, as in the case of '&', '|' and '~'.
+Bunun '&', '|' durumunda olduğu gibi yalnızca bir sembolden ziyade yerleşik bir MATLAB işlevi olduğuna dikkat edin.  ve '~'.
+
+The statement 'XOR(A,B)' is true when either A or B is true but not both.
+'XOR(A,B)' ifadesi A veya B'den biri doğru olduğunda ancak her ikisi de doğru olmadığında doğrudur.
+
+Logical operators like these shown can be used to create relational statements.
+Gösterilenler gibi mantıksal operatörler ilişkisel ifadeler oluşturmak için kullanılabilir.
+
+Additional relational operators are addressed in another online module.
+Ek ilişkisel operatörler başka bir çevrimiçi modülde ele alınmaktadır.
+
+Now that we know something about the logical operators,
+Artık mantıksal operatörler hakkında bir şeyler bildiğimize göre ,
+
+how do they fit in with the other operations in MATLAB?
+bunlar MATLAB'daki diğer işlemlerle nasıl uyum sağlar ?
+
+There are two online modules that describe algebraic operators and relational operators separately.
+Cebirsel operatörleri ve ilişkisel operatörleri ayrı ayrı açıklayan iki çevrimiçi modül vardır.
+
+Let's consider where logical operators fit among these operations.
+Mantıksal operatörlerin bu işlemler arasında nereye uyduğunu düşünelim.
+
+The logical operator with the highest priority is the logical negation, or 'NOT'.
+En yüksek önceliğe sahip mantıksal operatör, mantıksal olumsuzlama veya 'DEĞİL'dir.  Devrik ve üstel alma işleminden
+
+Notice that it comes right after transpose and exponentiation.
+hemen sonra geldiğine dikkat edin .
+
+Notice that the next logical operator is 'AND'
+Bir sonraki mantıksal operatörün 'VE' olduğuna
+
+and then comes the logical operator 'OR'.
+ve ardından 'OR' mantıksal operatörünün geldiğine dikkat edin.
+
+This is an important distinction.
+Bu önemli bir ayrımdır.
+
+MATLAB also allows you to do logical short-circuit 'AND' and 'OR'.
+MATLAB ayrıca mantıksal kısa devre 'AND' ve 'OR' yapmanızı da sağlar.
+
+I will leave this to you to figure out how these work.
+Bunların nasıl çalıştığını anlamanız için bunu size bırakıyorum.
+
+Now let's try to work this by hand.
+Şimdi bunu elle yapmaya çalışalım.
+
+The easiest way to do this is to build a truth table.
+Bunu yapmanın en kolay yolu bir doğruluk tablosu oluşturmaktır.
+
+A truth table allows you to determine all of the different possible truth values of a given statement.
+Doğruluk tablosu, belirli bir ifadenin tüm farklı olası doğruluk değerlerini belirlemenize olanak tanır.  Çözümümüzü elle değerlendirmek için
+
+We will work on filling out this truth table to evaluate our solution by hand.
+bu doğruluk tablosunu doldurmaya çalışacağız .
+
+First, remember our goal is to combine the controls of the devices
+Öncelikle amacımızın,
+
+so that, when the light switch is on or when both the motion detector is not engaged
+ışık anahtarı açıkken veya hem hareket dedektörü devrede değilken hem de
+
+and the clock is within a particular time range, the light fixture is on.
+saat belirli bir zaman aralığındayken ışık armatürünün açık olmasını sağlayacak şekilde cihazların kontrollerini birleştirmek olduğunu unutmayın.
+
+Also, in order to build our truth table we will need to remember when our variables are true and false.
+Ayrıca doğruluk tablomuzu oluşturmak için değişkenlerimizin ne zaman doğru ve yanlış olduğunu hatırlamamız gerekecek.  Işık anahtarının açık olup olmadığını
+
+We begin by considering all of the devices that control whether or not the light switch is on.
+kontrol eden tüm cihazları dikkate alarak başlıyoruz .
+
+These are the light switch 'S', the motion detector 'M', and the clock 'C'.
+Bunlar ışık anahtarı 'S', hareket dedektörü 'M' ve saat 'C'dir.
+
+Now let's fill in the truth table with all possible combinations of the controls.
+Şimdi doğruluk tablosunu tüm olası kontrol kombinasyonlarıyla dolduralım.
+
+First, all controls could be true.
+İlk olarak, tüm kontroller doğru olabilir.
+
+So I put a '1' in all of their columns.
+Bu yüzden tüm sütunlarına '1' koydum.
+
+Then let's add all the possibilities where only two of the controls are true.
+Daha sonra kontrollerden yalnızca ikisinin doğru olduğu tüm olasılıkları ekleyelim.
+
+Next, let's consider all the possibilities where only one of the controls is true,
+Daha sonra, kontrollerden yalnızca birinin doğru olduğu tüm olasılıkları ele alalım
+
+and finally, add the condition that all controls are false.
+ve son olarak tüm kontrollerin yanlış olması koşulunu ekleyelim.
+
+When I read my goal statement, I see that this is a logical argument.
+Hedef beyanımı okuduğumda bunun mantıklı bir argüman olduğunu görüyorum.
+
+Let's translate that into a logical statement.
+Bunu mantıksal bir ifadeye çevirelim.
+
+I want the light fixture to be on, which in logic terms for this device, is true under certain conditions.
+Işık armatürünün açık olmasını istiyorum ki bu cihaz için mantık açısından bu belirli koşullar altında doğrudur.
+
+The first condition is when the light switch is on.
+İlk durum, ışık anahtarının açık olduğu zamandır.
+
+Remember that the light switch on is also logically true, so I will represent that with an 'S'.
+Işık anahtarının açılmasının da mantıksal olarak doğru olduğunu unutmayın, dolayısıyla bunu 'S' ile temsil edeceğim.
+
+The next part of the sentence says 'OR', so I will add the MATLAB logical 'OR' ('|').
+Cümlenin bir sonraki kısmı 'OR' diyor, bu yüzden MATLAB mantıksal 'OR' ('|') ekleyeceğim.
+
+Then it states that the motion detector is not engaged.
+Daha sonra hareket dedektörünün devreye girmediğini belirtir.
+
+Recall that the motion detector is set to true when the motion detector is engaged,
+Hareket dedektörü devreye girdiğinde hareket dedektörünün doğruya ayarlandığını hatırlayın ,
+
+so we will want to use logical negation ('~') to reverse this,
+bu nedenle bunu tersine çevirmek için mantıksal olumsuzluk ('~') kullanmak isteyeceğiz,
+
+therefore, I put a '~ M'.
+bu nedenle '~ M' koydum.
+
+Continuing on, the sentence states, 'and the clock is within a  particular range.'
+Devam edersek cümle şöyle diyor: 've saat belirli bir aralıkta.'
+
+So, I'll add the logical 'AND' ('&') and use the 'C' variable for the clock in a certain range, which is also true.
+Dolayısıyla, mantıksal 'AND' ('&') ekleyeceğim ve belirli bir aralıktaki saat için 'C' değişkenini kullanacağım ki bu da doğrudur.
+
+We will want the evaluation to represent when the fixture is on or off,
+Değerlendirmenin fikstürün ne zaman açık veya kapalı olduğunu göstermesini isteyeceğiz,
+
+so we should start this code with our variable that represents the fixture.
+bu nedenle bu kodu fikstürü temsil eden değişkenimizle başlatmalıyız.
+
+I'll use an 'F' for that.
+Bunun için 'F' kullanacağım.
+
+Let's go back to evaluating this with the truth table.
+Bunu doğruluk tablosuyla değerlendirmeye geri dönelim .
+
+Note that in the logic statement we need to consider our order of operations.
+Mantık ifadesinde işlem sıramızı dikkate almamız gerektiğini unutmayın.
+
+The first operator that will be evaluated in this statement is the logical 'NOT' statement.
+Bu ifadede değerlendirilecek ilk operatör mantıksal 'DEĞİL' ifadesidir.
+
+So let's represent that in our table.
+Bunu tablomuzda temsil edelim.
+
+I will add the '~M' as a column to the table and then reverse each M true/false value.
+'~M'yi tabloya bir sütun olarak ekleyeceğim ve ardından her M doğru/yanlış değerini tersine çevireceğim.
+
+Looking at the 'M' column, you can see that we are toggling the ones and zeros.
+'M' sütununa baktığınızda birler ve sıfırları değiştirdiğimizi görebilirsiniz.
+
+Next, it evaluates the logical 'AND' statement, so we will consider the '~M & C' part of the statement.
+Daha sonra mantıksal 'AND' ifadesini değerlendirir, dolayısıyla ifadenin '~M & C' kısmını ele alacağız.
+
+Looking at the two columns 'C' and '~M', we can see that there are only two times when both are true.
+'C' ve '~M' sütunlarına baktığımızda, her ikisinin de doğru olduğu yalnızca iki zaman olduğunu görebiliriz.
+
+So I put 1's in my new column to go with these two true statements
+Bu yüzden bu iki doğru ifadeye uygun olarak yeni sütunuma 1'ler koydum
+
+and fill in the rest of the column with zeros for false.
+ve sütunun geri kalanını yanlış için sıfırlarla doldurdum.
+
+Going back to our logic statement, the last operator to evaluate is the logical 'OR'
+Mantık ifademize geri dönecek olursak, değerlendirilecek son operatör mantıksal 'VEYA'dır,
+
+so we make our final column, 'S | ~M & C'.
+dolayısıyla son sütunumuz olan 'S |  ~M ve C'.
+
+Now we will look at the 'S' column and the '~M & C' column to evaluate the 'OR' ('|').
+Şimdi 'OR' ('|') değerini değerlendirmek için 'S' sütununa ve '~M & C' sütununa bakacağız.
+
+Remember that 'OR' is true when one or both are true; it is only false when both are false.
+Biri veya her ikisi de doğru olduğunda 'VEYA'nın da doğru olduğunu unutmayın; yalnızca her ikisi de yanlış olduğunda yanlıştır.
+
+This will be easier to see.
+Bunu görmek daha kolay olacaktır.
+
+I see that there are three instances where both are false so I add 0's to each of these instances
+Her ikisinin de yanlış olduğu üç durum olduğunu görüyorum ve bu örneklerin her birine 0 ekliyorum
+
+and fill in the remainder of the columns with 1.
+ve geri kalan sütunları 1 ile dolduruyorum.
+
+This final column represents the values of the light fixture 'F'.
+Bu son sütun, ' F' aydınlatma armatürünün değerlerini temsil ediyor.
+
+Notice that the light fixture is on during five of the eight possible combinations.
+Sekiz olası kombinasyondan beşinde ışık armatürünün açık olduğuna dikkat edin .
+
+Now let's code this in MATLAB.
+Şimdi bunu MATLAB'da kodlayalım.
+
+I have already started a script and have initialized the variables for the switch,
+Zaten bir komut dosyası başlattım ve anahtar,
+
+motion detector, and digital clock.
+hareket dedektörü ve dijital saat için değişkenleri başlattım.
+
+In the calculation section we need to add our logic statement with correct MATLAB code.
+Hesaplama kısmında doğru MATLAB koduyla mantık ifademizi eklememiz gerekiyor.
+
+So I will name the variable for the light fixture, 'lt_fixture', set it equal to 'switch_lt',
+Bu yüzden ışık fikstürünün değişkenine 'lt_fixture' adını vereceğim, onu 'switch_lt'ye eşitleyeceğim,
+
+use the logical 'OR' ('|'), then the '~motion_det', the logical 'AND', and the variable 'clock_time'.
+mantıksal 'OR' ('|'), sonra '~motion_det', mantıksal 'AND' ve mantıksal 'VE'yi kullanacağım.  'clock_time' değişkeni.
+
+Let's run the script to verify that this gives me the result I expect.
+Bunun bana beklediğim sonucu verdiğini doğrulamak için betiği çalıştıralım .
+
+Good! I get the same output as my truth table.
+İyi!  Doğruluk tablomla aynı çıktıyı alıyorum .
+
+Now let's think about how to use MATLAB to verify the conditions for which the light fixture is on.
+Şimdi ışık fikstürünün açık olduğu koşulları doğrulamak için MATLAB'ı nasıl kullanacağımızı düşünelim .
+
+MATLAB has a built-in function called 'find'.
+MATLAB'ın 'bul' adı verilen yerleşik bir işlevi vardır.
+
+'find' determines the linear index location of all non-zero elements in an array.
+'Bul', bir dizideki sıfır olmayan tüm öğelerin doğrusal dizin konumunu belirler.
+
+Here are two examples of how 'find' works.
+İşte 'bul'un nasıl çalıştığına dair iki örnek.
+
+In the first example, the non-zero elements are highlighted.
+İlk örnekte sıfır olmayan öğeler vurgulanmıştır.
+
+Notice that these are the 1st, 3rd, 5th, and 7th elements in the array.
+Bunların dizideki 1., 3., 5. ve 7. öğeler olduğuna dikkat edin.
+
+MATLAB returns the linear indices of the array, which in this case are 1, 3, 5, and 7.
+MATLAB, dizinin doğrusal indekslerini döndürür; bu durumda bunlar 1, 3, 5 ve 7'dir.
+
+The second example has nonzero elements in the first row, first column and the second row, first column.
+İkinci örnekte, birinci satır, birinci sütun ve ikinci satır, birinci sütunda sıfırdan farklı öğeler vardır.
+
+These correspond to the linear indices of 1 and 2.
+Bunlar 1 ve 2'nin doğrusal indekslerine karşılık gelir.
+
+Now let's return to our example to see how 'find' is useful for this problem
+Şimdi 'bul'un bu problem için ne kadar yararlı olduğunu görmek için örneğimize dönelim.
+
+We will use the 'find' command to create a location array to determine
+
+
+the conditions under which the light fixture is turned on.
+Işık fikstürünün hangi koşullar altında çalıştığını belirlemek için bir konum dizisi oluşturmak için 'bul' komutunu kullanacağız.  açık.
+
+Before I can do that, I'm going to define all of the possible conditions for the devices using words
+Bunu yapmadan önce, cihazlar için olası tüm koşulları
+
+instead of 1s and 0s.
+1'ler ve 0'lar yerine kelimeleri kullanarak tanımlayacağım.
+
+I can do this with string variables.
+Bunu dize değişkenleriyle yapabilirim.
+
+String variables are set using double quotes.
+Dize değişkenleri çift tırnak kullanılarak ayarlanır.
+
+The point of this code is to take the information from the truth table shown at the right,
+Bu kodun amacı, sağda gösterilen doğruluk tablosundan bilgi almak,
+
+which is also the information in the three initialized variables in this code,
+ki bu aynı zamanda bu koddaki üç başlatılmış değişkendeki bilgidir
+
+and replace them with words that represent the condition.
+ve bunları, koşulu temsil eden kelimelerle değiştirmektir.
+
+Look at the code I have added here and compare it to the truth table at the right.
+Buraya eklediğim koda bakın ve sağdaki doğruluk tablosuyla karşılaştırın.
+
+You can see that each 1 and 0 corresponds to appropriate words in the code.
+Her 1 ve 0'ın koddaki uygun kelimelere karşılık geldiğini görebilirsiniz.
+
+Next, I will make a string array using each of these conditions
+Daha sonra, bu koşulların her birini kullanarak bir dize dizisi yapacağım,
+
+so I will have one array that represents all values in the truth table on the right.
+böylece sağdaki doğruluk tablosundaki tüm değerleri temsil eden bir diziye sahip olacağım .
+
+I will call this 'device_condition' and use column vector notation to combine each of my string vectors.
+Buna 'device_condition' adını vereceğim ve dize vektörlerimin her birini birleştirmek için sütun vektör gösterimini kullanacağım.
+
+All right, now that this is complete,
+Pekala, artık bu tamamlandığına göre,
+
+let's check to make sure that my code provides me with the output I am expecting.
+kodumun bana beklediğim çıktıyı sağladığından emin olmak için kontrol edelim .  Doğruluk tablosunda
+
+I can see that each condition variable corresponds with the correct 1 and 0 in the truth table.
+her koşul değişkeninin doğru 1 ve 0'a karşılık geldiğini görebiliyorum.
+
+As an aside, notice also that MATLAB provides a link for the string array.
+Bir yana, MATLAB'ın dize dizisi için bir bağlantı sağladığına da dikkat edin.  String dizileri hakkında
+
+You can click this link to find out more about string arrays.
+daha fazla bilgi edinmek için bu bağlantıya tıklayabilirsiniz .
+
+I now need to code the script to find the instances when the light is turned on,
+Şimdi ışığın açıldığı, yani
+
+which is when the variable 'lt_fixture' is true.
+'lt_fixture' değişkeninin doğru olduğu durumları bulmak için betiği kodlamam gerekiyor.
+
+Remember that 'find' determines the linear index location of all non-zero elements in an array.
+'Bul'un bir dizideki sıfır olmayan tüm öğelerin doğrusal dizin konumunu belirlediğini unutmayın.
+
+So I will make a dummy variable, which I will call 'x',
+Böylece 'x' adını vereceğim kukla bir değişken yapacağım
+
+and use the 'find' command to determine the linear indices where my 'lt_fixture' is non-zero.
+ve 'lt_fixture'ımın sıfırdan farklı olduğu doğrusal endeksleri belirlemek için 'find' komutunu kullanacağım .
+
+This corresponds to all of the conditions for which the light fixture is on.
+Bu, aydınlatma armatürünün açık olduğu tüm koşullara karşılık gelir.  Beklediğim çıktıyı
+
+Let's run this to verify that it gives me the output I expect.
+verdiğini doğrulamak için bunu çalıştıralım .
+
+I can see the indices stored in 'x' are 1, 2, 3, 5, and 6 and these correspond to the true values in 'lt_fixture'.
+'X'te saklanan endekslerin 1, 2, 3, 5 ve 6 olduğunu ve bunların 'lt_fixture'daki gerçek değerlere karşılık geldiğini görebiliyorum.
+
+To finish up this problem, I will display when the light is on in words.
+Bu sorunu bitirmek için ışığın yandığını kelimelerle göstereceğim.  Şablonun biçimlendirilmiş metin bölümünde
+
+I begin by creating a new variable 'fixture_on' in the formatted text section of the template,
+yeni bir değişken 'fixture_on' oluşturarak başlıyorum ,
+
+then use linear indexing to output just the strings that go with the conditions when the light fixture is turned on.
+ardından yalnızca aydınlatma armatürü açıldığında koşullara uygun dizelerin çıktısını almak için doğrusal indekslemeyi kullanıyorum.
+
+Again, let's run the code.
+Tekrar kodu çalıştıralım.
+
+Thinking back to the goal of the problem, I see that the first four outputs all have the switch on,
+Sorunun amacını tekrar düşündüğümde, ilk dört çıkışın hepsinde anahtarın açık olduğunu görüyorum,
+
+which forces the light on, so this fits the goal.
+bu da ışığı açmaya zorluyor, yani bu amaca uyuyor.
+
+The only additional output has the switch off, the motion detector not engaged,
+Tek ek çıkış, kapatmanın kapalı olması, hareket dedektörünün devreye girmemesi
+
+and the clock within the time set by the owner, so you can see this also fits the goal.
+ve saatin sahibi tarafından belirlenen süre içerisinde olması, böylece bunun da hedefe uygun olduğunu görebilirsiniz.
+
+Therefore, we know our code runs successfully.
+Bu nedenle kodumuzun başarıyla çalıştığını biliyoruz.
+
+In summary, through this online module, we developed logical statements from an identified pattern,
+Özetle, bu çevrimiçi modül aracılığıyla, tanımlanmış bir modelden mantıksal ifadeler geliştirdik, mantıksal işlemleri gerçekleştirmek için
+
+applied MATLAB order of operations to perform logical operations,
+MATLAB işlem sırasını uyguladık ,
+
+noting that in particular the logical 'AND' (&) is evaluated before the logical 'OR' (|),
+özellikle mantıksal 'VE' (&)'nin mantıksal 'VEYA' (|)'dan önce değerlendirildiğine dikkat çektik.
+
+and recognized that the output of 'find' is an array of linear indices of the non-zero elements in the input array
+ve 'bul' çıktısının, giriş dizisindeki sıfır olmayan öğelerin doğrusal indekslerinden oluşan bir dizi olduğunu fark etti
+
+and used this output as linear indices
+ve bu çıktıyı doğrusal indeksler olarak kullandı.
