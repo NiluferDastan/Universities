@@ -1,0 +1,201 @@
+---
+title: "R Giriş ve Varsayım kontrolleri- Ders 2"
+author: "Nihat Tak"
+date: '2023-03-09'
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### **Parametrik varsayımların kontrolü**
+
+ İstatistik analizlerinde uygulanacak testlerin seçilmesi yani parametrik veya parametrik olmayan testleden hangisinin uygulanacağına karar vermek için analiz edilen veriye ait açıklayıcı istatistiklerin incelenmesi ve testlere ilgili varsayımların geçerliliklerinin varsayımlarının kontrol edilmesi gereklidir. 
+ **not**: Uygulamada testler ile ilgili varsayımların kontrolünün yapılmaması sıkça yapılan bir hatadır. Unutulmamalıdırki, parametrik istatistik yöntemleri mutlaka belli başlı varsayımlara dayanmaktadır. Bu varsayımların ihlali söz konusu olduğu zamanlarda, bu testler güvenilir olmayan sonuçlar verecektir. Örneğin, bir araştırmaya göre kişilik ve sosyal psikoloji dergilerindeki 72 makale gözden geçirilmiş ve bu makalelerin sadece %19'unun çok değişkenli normallik varsayımdan bahseettiğini bildirmiştir.
+
+### **Veri tanıtımı**
+İki farklı lokasyonda yetiştirilen yerli bir kiraz çeşidinde giberallik asit uygulamalarının meyve özelliklerine etkilerinin araştırıldığı bir çalışmada püskürtme yoluyla 20 ppm ve 50 ppm dozlarında giberallik asit dozları ile hiç asit uygulanmayan (0 ppm) kontrol uygulaması karşılaştırılmıştır. Her bir uygulama 10 kiraz ağacında denenmiştir.kiraz1 ile adlandıralan veri 1. lokasyondaki deneme verisi ve kiraz 2 ile adlandırılan veri 2. lokasyondaki deneme verisidir. "magr" ile kodlanan sütun meyve ağırlıklarını, "grup" ile kodlanan sütun asit dozlarını göstermekte olup, kontrol grubu (0 ppm) K ile, 20 ppm grubu A ile ve 50 ppm grubu B ile kodlanmıştır. 
+```{r,message=FALSE,warning=FALSE}
+setwd("C:/Users/nihattak/Desktop/Verilen Dersler-Marmara/nonparametric")
+kiraz1<-read.table("kiraz1.txt",head=TRUE,sep = "\t")
+kiraz1$grup<-as.factor(kiraz1$grup)
+kiraz2<-read.table("kiraz2.txt",head=TRUE,sep = "\t")
+kiraz2$grup<-as.factor(kiraz2$grup)
+str(kiraz1)
+head(kiraz1)
+tail(kiraz1)
+```
+```{r,message=FALSE,warning=FALSE}
+levels(kiraz2$grup)
+```
+### **Varsayımların kontrolü**
+
+Parametrik ve paarametrik olmayan istatistik yöntemlerle ilgili varsayımların geçerli olup olmadıklarını anlamak üzere yapılacak işlemler aşağıdaki gibi gruplanabilir.
+
+<ul>
+    <li> Görsel değerlendirme
+    <li> Açıklayıcı istatistikleri inceleme
+    <li> İstatistiksel testler
+</ul>
+#### **Görsel değerlendirme**
+#### Histogram
+```{r,message=FALSE,warning=FALSE}
+oldpar<-par(mfrow=c(1,2))
+hist(kiraz1$magr,prob=T,xlab="Ağırlık(g)", ylab="Frekans",main="Deneme1")
+lines(density(kiraz1$magr),lwd=3,col="blue")
+hist(kiraz2$magr,prob=T,xlab="Ağırlık(g)", ylab="Frekans",main="Deneme2")
+lines(density(kiraz2$magr),lwd=3,col="blue")
+```
+2 denemeye ait histogramlar incelendiğinde, kiraz1 denemesine ait histogram verinin normal dağılıma yakın bir dağılım olduğunu gösterirken, kiraz2 denemesine ait histogram verinin normal dağılımdan farklı bir dağılıma sahip olduğunu ifade eder.
+
+#### Kutu Grafiği (Box-Plot)
+```{r,message=FALSE,warning=FALSE}
+oldpar<-par(mfrow=c(1,2))
+boxplot(kiraz1$magr, horizontal = T, col="gray",border = "blue", main="Deneme 1 Kutu Grafiği",xlab="Ağırlık(g)", ylab="")
+boxplot(kiraz2$magr, horizontal = T, col="gray",border = "blue", main="Deneme 1 Kutu Grafiği",xlab="Ağırlık(g)", ylab="")
+par(oldpar)
+```
+Yukarıdaki kutu grafiği incelendiğinde sol taraftaki kiraz1 denemesine ait kutunun yerleşimi ve kutu içindeki ortanca çizginin normal dağılışa yakın olduğu söylenebilir. Sağ taraftaki kiraz2 denemesine ait kutu ise normal dağılımda farklı olduğu söylenebilir çünkü  hem kutu sola çok yakın hem de kutuda ortanca çizgisi kutunun soluna yaklaşmış durumdadır. Dolayısıyla kutu grafikleri normallik kontrolünde oldukça açıklayıcı bilgiler sağlamaktadır.
+
+#### QQ-plot
+Histogramlar dağılışın şekli hakkında bilgi versede normalliğin incelenmesi için istatistikte Q-Q frafiği olarak bilinen Kantil-Kantil grafiklerinden faydalanılır. Q-Q grafiği, örneklem kantilleri ile ortalama ve standart sapmayı kullanarak hesaplanan normal dağılışın beklenen kantillerine (teorik kantiller) hangi oranda uyduğunu kıyaslamak için kullanılır. 
+
+
+```{r,message=FALSE,warning=FALSE}
+oldpar<-par(mfrow=c(1,2))
+qqnorm(kiraz1$magr,xlab="Teorik kantiller", ylab="Örneklem kantilleri", main="Deneme1 Q-Q grafiği")
+qqline(kiraz1$magr,col=4,lwd=2)
+qqnorm(kiraz2$magr,xlab="Teorik kantiller", ylab="Örneklem kantilleri", main="Deneme2 Q-Q grafiği")
+qqline(kiraz2$magr,col=4,lwd=2)
+```
+Gözlemlerin köşegende uzanan doğru üstünde veya doğruya yakın olmaları normalliğin bir göstergesidir. Yukarıdaki r kodunda qqnorm fonksiyonu ile değişkenlere ait kantil çiftlerinin serpilmesi ve qqline fonksiyonu ile regresyon doğrusunun çizimi yapılmaktadır. 
+Deneme1'e ait Q-Q grafiği incelendiğinde örneklem kantil çiftlerinin neredeyse mavi renkli regresyon doğrusu üzerinde bulundukları ; sadece alt ve üst uçlarda birkaç gözlemin uzak olduğu görülmektedir. Bu durumda kiraz1 verisine ait *magr* değişkeni normal yada normal olarak kabul edilebilecek bir dağılımdan geldiği söylenebilir.
+Deneme2 yani kiraz2 verisi göz önünde bulundurulduğunda, bir çok kantil çiftinin alt ve üst uçlarla birlikte regresyon doğrusunun orta kısımlarında da bulunmadığı grafikte gözlemlendiğinden, kiraz2 verisindeki *magr* değişkeninin normal dağılım göstermediği söylenebilir.
+
+
+*not:* Histogramlar ve Q-Q grafikleri normalliğin incelenmesinde önemli bilgiler sağlasada, çok sayıda değişkenden oluşan bir veri seti için görsel inceleme çok zaman alıcıdır. Ayrıca, normal dağılımdan çok az ayrılan dağılımlarıda normal dağılım olarak değerlendirme riskide söz konusu olabilir. Bu nedenle sadece grafiklere bağlı inceleme yapma yerine kada kesin sonuçlar için açıklayıcı istatistikler incelenmeli ve bunlara dayalı testlere başvurulmalıdır.
+
+### **Açıklayıcı İstatistiklerin İncelenmesi**
+
+Açıklayıcı istatistikler normallik hakkında yeterli sayılabilecek bilgi sağlarlar. Normal dağılan bir veride aritmetik ortalama, mod ve medyan değerleri birbirine eşit veya birbirine çok yakın değerler olmalıdır. R' de değişkenlerin açıklayıcı istatistiklerini hesaplamak için çok sayıda fonksiyon vardır. Bunlardan en yaygın olarak kullanılanı **stats** paketindeki _summary_' dir.
+
+Aşağıdaki örneklerde kiraz1 ve kiraz2 verisetlerindeki magr değişkeni için açıklayıcı istatistikler verilmiştir.
+
+```{r,message=FALSE,warning=FALSE}
+summary(kiraz1$magr)
+summary(kiraz2$magr)
+```
+Değişkenlerin açıklayacı istatistikleri için **psych** paketindeki _"describe"_ ve _"describeBy"_ fonksiyonlarından da faydalınılabilir.
+
+```{r,message=FALSE,warning=FALSE}
+if(!require(psych)){install.packages("psych");require(psych)}
+describe(kiraz1$magr)
+describe(kiraz2$magr)
+
+describeBy(kiraz1$magr,group = kiraz1$grup)
+describeBy(kiraz2$magr,group = kiraz2$grup)
+```
+Değişkenlere ilişkin başka özetleyici istatistikleri veren paketlerde mevcuttur. Bunlardan biri **Rmisc** paketidir. Bu paketteki summarySE fonksiyonu ilgili değişkene ilişkin grup ortalamalarını, standart sapmalarını(sd), standart hatalarını(se) ve güven aralıklarını(ci) hesaplar.
+```{r,message=FALSE,warning=FALSE}
+if(!require(Rmisc)){install.packages("Rmisc");require(Rmisc)}
+summarySE(data=kiraz1,"magr",groupvars="grup",conf.interval=0.95)
+summarySE(data=kiraz2,"magr",groupvars="grup",conf.interval=0.95)
+```
+
+Ayrıca FSA paketindeki Summarize fonksiyonu da grup istatistiklerini hesaplamak için bir başka seçenektir.
+
+```{r,message=FALSE,warning=FALSE}
+if(!require(FSA)){install.packages("FSA");require(FSA)}
+summarySE(data=kiraz1,"magr",groupvars="grup",conf.interval=0.95)
+summarySE(data=kiraz2,"magr",groupvars="grup",conf.interval=0.95)
+```
+
+Açıklayıcı istatitiklerden çarpıklı ve basıklık katsayıları dağılımın normalliği açısından bilgi verici ölçülerdir. Normal dağılıma sahip bir verinin çarpıklık katsayısının [-2,2] aralığında ve basıklık katsayısının da [-7,7] aralığında olması beklenir. 
+
+### **İstatistiksel Testler**
+
+#### Normallik Testleri
+
+Normallik testleri, değişkenlerin normal dağılım gösterip göstermediğini kontrol etmek için kullanılan testlerdir. Kolmogorov-Smirnov testi, Jarque-Bera testi ve Shapiro-Wilk testi normallik testleri içerisinde en yaygın kullanılan testlerdir. 
+
+<ul>
+    <li> Kolmogrow-Smirnov testi: dağılımın kuyruklarındaki sorunlara duyarlı dğil ve n>50 olduğunda uygun görülen bir testtir.
+    <li> Shapiro-Wilk testi: veride aynı değerler olduğunda yani gözlemler arasında bir bağ olduğunda iyi sonuç vermezler ve n<50 örneklem büyüklüğü olduğum durumlarda tercih edilir.
+    <li> Jargue-Bera testi: Basıklık ve çarpıklı ölçülerini kullandığından normallik için iyi bir test olarak kabul edilir.
+</ul>
+**not:** Tek örneklem t-testi ve z-testi için normallik kontrolü direk olarak bağımlı değişkene uygulanabilir ancak diğer testlerde doğrusal modele ait kalıntıların normallik gösterip göstermediği araştırılmalıdır. R' de normallik testi için **stats** paketinde "shapiro.test" fonksiyonundan faydalanılabilir.
+
+Shapiro-Wilk testinde hipotezler:
+
+H0:Veri setinin dağılımı normaldir.
+
+H1:Veri setinin dağılımı normal değildir.
+
+Eğer p-value< cut-off(0.10 veya 0.05 veya 0.01, etc) ise Ho reddedilir.
+
+```{r,message=FALSE,warning=FALSE}
+shapiro.test(kiraz1$magr)
+shapiro.test(kiraz2$magr)
+```
+Dolayısıyla yukarıdaki örneğe göre, kiraz1 veri setindeki *magr* değişkeninin dağılımı p-value=0.6312>0.01 olduğundan normaldir denir. Benzer şekilde, kiraz2 veri setindeki *magr* değişkeninin dağılımı p-value=0.006879<0.01 olduğundan normal değildir denir 
+
+Bir diğer normallik testi fBasics paketindeki  jarqueberaTest fonksiyonu ile yapılan Jarque-Bera testidir. 
+
+```{r,message=FALSE,warning=FALSE}
+
+model1<-lm(magr~grup,data=kiraz1)
+model2<-lm(magr~grup,data=kiraz2)
+shapiro.test(model1$residual)
+shapiro.test(model2$residual)
+
+if(!require(fBasics)){install.packages("fBasics");require(fBasics)}
+jarqueberaTest(model1$res)
+jarqueberaTest(model2$res)
+
+```
+### **Varyansların Homojenliğinin Kontrolü**
+
+Karşılaştırılan gruplara ait varyansların benzer olmalarına varyansların homojenliği yada homoscedasticity denir. Eğer gruplara ait varyansların eşitliği söz konusu değil ise parametrik testler güvenilir sonuç  vermezler. Bu durumda, gruplara ait varyansların homojen olmasına yönelik dönüşümlerden veya parametrik olmayan istatistikten yararlanılır. Gruplara ait varyansların homojen olup olmadığını anlamak için  Levene testi, Brown-Forsythe testi, veya Barlett K-kare testinden faydalanılır. 
+
+#### Levene Testi
+Aşağıda car paketindeki leveneTest fonksiyonu ile kiraz1 ve kiraz2 verisindeki magr değişkenin gruplara göre varyans homojenliği testi yapılmıştır.
+
+```{r,message=FALSE,warning=FALSE}
+if(!require(car)){install.packages("car");require(car)}
+leveneTest(magr~grup,data=kiraz1)
+leveneTest(magr~grup,data=kiraz2)
+```
+
+Levene testinde H0 hipotezi gruplara ait varyansların homojen olduğunu söylerken, H1 hipotezi gruplara ait varyansların homojen olmadığını ifade eder. P-değerinin araştırmacı tarafından belirlenen önemlilik seviyisinden küçük olması gruplar arası varyansın istatistiksel olarak homojen olmadığını işaret eder. Bu durumda kiraz1 verisi için gruplar arası varyansların homojen olduğu gözlemlenirken, kiraz2 verisi için bu homojenlik istatiksel olarak gözlemlenmemiştir.
+
+#### Brown-Forsyth Testi
+
+HH paketindeki hovBF fonksiyonu ile Brown-Forsyth testi gruplara ait varyansların homojenliğini araştırmakta kullanılan testlerden bir diğeridir. 
+
+```{r,message=FALSE,warning=FALSE}
+if(!require(HH)){install.packages("HH");}
+hovBF(magr~grup,data=kiraz1)
+hovBF(magr~grup,data=kiraz2)
+```
+Brown-Forsyth testi ile elde edilen sonuçlar kiraz1 verisinde grup varyanslarının homojen (p=0.5316) iken kiraz2 verisi için grup varyansları heterojen (p=0.01401) bulunmuştur.
+
+
+
+#### Bağımsızlık Testi ####
+Örneklem Grupları içinde yer alan her bir gözlemin diğerlerinden bağımsız olması gerekir yani ilişkili olmaması gereklidir. Bağımsızlık, örneklem içinde yer alan bir örnekte ölçülen/gözlenen değerin diğer örneklem birimindeki ölçülen/gözlenen değerleri etkilememesi olarak daa tanımlanabilir. Bu durumun testip edilebilmesi için kullanılabilecek birçok test literatürde mevcuttur. Bunlar arasından en yaygın olanı Durbin-Watson testidir. Bu testi R' de car paketinde bulunan durbinWatsonTest fonksiyonu ile test edebiliriz. 
+
+```{r, message=FALSE, warning=FALSE}
+model1<-lm(magr~grup,data=kiraz1)
+durbinWatsonTest(model1)
+model2<-lm(magr~grup,data=kiraz2)
+durbinWatsonTest(model2)
+```
+
+
+### Referanslar
+1. Z. Cebeci , R ile Parametrik Olmayan İstatistik Analiz, Abaküs Yayın Evi, 2019
+
